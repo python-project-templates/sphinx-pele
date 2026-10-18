@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Build your first diagram &#8212; sphinx-pele  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-pele.css?v=921b2862" />
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script defer="defer" src="../_static/sphinx-pele.js?v=0a06523c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="How to add Mermaid diagrams" href="usage.html" />
+    <link rel="prev" title="sphinx-pele" href="../index.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="build-your-first-diagram">
+<h1>Build your first diagram<a class="headerlink" href="#build-your-first-diagram" title="Link to this heading">¶</a></h1>
+<p>This tutorial builds a small Sphinx site with a publishing flowchart, then adds
+a caption and zoom controls. You need Python 3.11 or newer, <code class="docutils literal notranslate"><span class="pre">pip</span></code>, Git, Node.js
+22+, and pnpm 11.11.0. This tutorial installs the development version from the
+repository.</p>
+<section id="create-a-project">
+<h2>Create a project<a class="headerlink" href="#create-a-project" title="Link to this heading">¶</a></h2>
+<p>In an empty working directory, create a virtual environment and install the
+extension:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>.venv
+.<span class="w"> </span>.venv/bin/activate
+python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">"sphinx-pele @ git+https://github.com/python-project-templates/sphinx-pele.git@main"</span>
+mkdir<span class="w"> </span>docs
+</pre></div>
+</div>
+<p>On Windows, use <code class="docutils literal notranslate"><span class="pre">.venv\Scripts\activate</span></code> to activate the environment.</p>
+<p>Create <code class="docutils literal notranslate"><span class="pre">docs/conf.py</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">project</span> <span class="o">=</span> <span class="s2">"Publishing guide"</span>
+<span class="n">extensions</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"sphinx_pele"</span><span class="p">]</span>
+<span class="n">root_doc</span> <span class="o">=</span> <span class="s2">"index"</span>
+</pre></div>
+</div>
+<p>Create <code class="docutils literal notranslate"><span class="pre">docs/index.rst</span></code>:</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="gh">Publishing guide</span>
+<span class="gh">================</span>
+
+<span class="p">..</span> <span class="ow">mermaid</span><span class="p">::</span>
+
+   flowchart LR
+       Draft --&gt; Review --&gt; Published
+</pre></div>
+</div>
+</section>
+<section id="build-and-view-it">
+<h2>Build and view it<a class="headerlink" href="#build-and-view-it" title="Link to this heading">¶</a></h2>
+<p>Run:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>sphinx<span class="w"> </span>-W<span class="w"> </span>-b<span class="w"> </span>html<span class="w"> </span>docs<span class="w"> </span>docs/_build/html
+python<span class="w"> </span>-m<span class="w"> </span>http.server<span class="w"> </span><span class="m">8000</span><span class="w"> </span>--directory<span class="w"> </span>docs/_build/html
+</pre></div>
+</div>
+<p>Open <code class="docutils literal notranslate"><span class="pre">http://localhost:8000/</span></code>. The page should show three nodes labeled Draft,
+Review, and Published, joined from left to right on a wide screen. Keep the server
+running while you edit; use a second terminal for the next build.</p>
+</section>
+<section id="add-a-caption-and-controls">
+<h2>Add a caption and controls<a class="headerlink" href="#add-a-caption-and-controls" title="Link to this heading">¶</a></h2>
+<p>Replace the directive in <code class="docutils literal notranslate"><span class="pre">docs/index.rst</span></code> with:</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">mermaid</span><span class="p">::</span>
+   <span class="nc">:caption:</span> Publishing flow
+   <span class="nc">:name:</span> publishing-flow
+   <span class="nc">:alt:</span> A draft is reviewed before publication.
+   <span class="nc">:zoom:</span> true
+
+   flowchart LR
+       Draft --&gt; Review --&gt; Published
+
+See <span class="na">:ref:</span><span class="nv">`publishing-flow`</span>.
+</pre></div>
+</div>
+<p>Build again, then reload the browser:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>sphinx<span class="w"> </span>-W<span class="w"> </span>-b<span class="w"> </span>html<span class="w"> </span>docs<span class="w"> </span>docs/_build/html
+</pre></div>
+</div>
+<p>The diagram now has a caption, a link to the figure, and zoom buttons. Click the
+zoom-in button, then reset the view. Resize the browser to see the diagram adapt
+to the page width.</p>
+</section>
+<section id="change-the-font-size">
+<h2>Change the font size<a class="headerlink" href="#change-the-font-size" title="Link to this heading">¶</a></h2>
+<p>Add this line to <code class="docutils literal notranslate"><span class="pre">docs/conf.py</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pele_options</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"fontSize"</span><span class="p">:</span> <span class="mi">20</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Rebuild and reload once more. Diagram labels should be larger; the caption keeps
+the Sphinx theme’s text style.</p>
+<p>Your site now contains a rendered diagram with a caption and reader controls.
+Continue with <a class="reference internal" href="usage.html"><span class="std std-doc">Markdown and file-based diagrams</span></a>, or copy a different
+diagram from the <a class="reference internal" href="examples.html"><span class="std std-doc">gallery</span></a>.</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">sphinx-pele</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Tutorial</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Build your first diagram</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">How-to guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">How to add Mermaid diagrams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="styling.html">How to style diagrams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="migration.html">How to migrate from sphinxcontrib-mermaid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">How to troubleshoot diagrams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="development.html">How to build and check the documentation locally</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Diagram examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rst-examples.html">reStructuredText examples</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Explanation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="rendering.html">Rendering and output</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../index.html" title="previous chapter">sphinx-pele</a></li>
+      <li>Next: <a href="usage.html" title="next chapter">How to add Mermaid diagrams</a></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.0.4</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/src/tutorial.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

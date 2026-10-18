@@ -1,5 +1,14 @@
 # Configuration reference
 
+## Requirements
+
+| Component        | Requirement                                                       |
+| ---------------- | ----------------------------------------------------------------- |
+| Python           | 3.11 or newer                                                     |
+| Sphinx           | 7.4 or newer                                                      |
+| MyST             | Optional, for Markdown documents                                  |
+| Node.js and pnpm | Needed to build from source; not needed to use an installed wheel |
+
 ## Sphinx settings
 
 | Setting              | Default | Meaning                                                             |
@@ -10,6 +19,8 @@
 Pele 1.6.0 is bundled in the wheel. HTML documentation uses local JavaScript and
 CSS, with no CDN or Node.js runtime requirement. Building the package from source
 requires Node.js and pnpm.
+
+(diagram-configuration)=
 
 ## Diagram configuration
 
@@ -46,6 +57,10 @@ The extension accepts these JSON-compatible [Pele options](https://pele.run/api)
 | `zoom`                                                   | Boolean, `auto`, or zoom options mapping |
 
 Zoom mappings accept Pele's `always`, `maxScale`, `controls`, and `labels` options.
+`labels` is a mapping with `zoomIn`, `zoomOut`, and `reset` strings. The default
+`zoom: "auto"` shows controls when a diagram shrinks to fit; `true` always enables
+zoom and `false` disables it. The documentation gallery explicitly disables zoom
+by default and enables it on selected examples.
 Pele supplies defaults for omitted values. Mounting measures the container width;
 `:width:` controls the container's available width. `maxWidth` is accepted for API
 compatibility but Pele's mount operation uses the measured width.
@@ -95,3 +110,21 @@ Pele zoom controls. Without JavaScript, escaped Mermaid source remains visible.
 Text, LaTeX, man, and other non-HTML builders emit source as a literal block;
 PDF/image export is not implemented. Mermaid CLI options, D3 zoom, and
 `sphinxcontrib.mermaid`'s class-tree generator are not supported.
+
+## Errors
+
+| Condition                                                   | Result                                                 |
+| ----------------------------------------------------------- | ------------------------------------------------------ |
+| Invalid `pele_options` or `pele_css_variables` in `conf.py` | Sphinx configuration error.                            |
+| Both Mermaid extensions enabled                             | Sphinx configuration error.                            |
+| Empty directive, missing file, or invalid directive option  | Document parsing error.                                |
+| Invalid diagram frontmatter or `pele` option                | `pele.config` warning; source remains a literal block. |
+| Missing packaged browser assets                             | HTML builder initialization error.                     |
+| Invalid Mermaid syntax or a rendering limit exceeded        | Browser error display from Pele.                       |
+
+The extension validates the top-level types of renderer options. Nested Mermaid
+settings and zoom mapping contents are passed to Pele; they do not receive a
+complete schema check in Python. Date-like YAML values must be quoted when used
+as strings; `now` accepts a numeric timestamp, not a YAML date.
+
+See [troubleshooting](troubleshooting.md) for recovery steps.

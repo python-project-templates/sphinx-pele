@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Rendering and output &#8212; sphinx-pele  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-pele.css?v=921b2862" />
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script defer="defer" src="../_static/sphinx-pele.js?v=0a06523c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="reStructuredText examples" href="rst-examples.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="rendering-and-output">
+<h1>Rendering and output<a class="headerlink" href="#rendering-and-output" title="Link to this heading">¶</a></h1>
+<p>Sphinx and Pele run at different times. That distinction explains why a page can
+build successfully yet show a diagram error in the browser, and why HTML and
+LaTeX contain different output.</p>
+<section id="sphinx-preserves-the-source">
+<h2>Sphinx preserves the source<a class="headerlink" href="#sphinx-preserves-the-source" title="Link to this heading">¶</a></h2>
+<p>During a build, the extension reads Mermaid directives and code blocks. It
+combines the Sphinx defaults, diagram frontmatter, and directive options, then
+writes escaped source and serialized configuration into the HTML page. External
+Mermaid files are registered as dependencies, so editing one causes Sphinx to
+rebuild the document that uses it.</p>
+<p>The Python extension checks configuration structure and value types. It does
+not parse the Mermaid grammar. A misspelled Pele option can therefore generate
+a build warning, while a malformed flowchart is reported later by the renderer.</p>
+</section>
+<section id="the-browser-creates-svg">
+<h2>The browser creates SVG<a class="headerlink" href="#the-browser-creates-svg" title="Link to this heading">¶</a></h2>
+<p>The wheel contains Pele’s JavaScript and the extension’s stylesheet. Sphinx
+copies those assets into the output’s <code class="docutils literal notranslate"><span class="pre">_static</span></code> directory. Once the page loads,
+Pele mounts each diagram, measures its container and fonts, and produces SVG.</p>
+<p>Rendering in the browser lets diagrams respond to the space readers have.
+A narrow page can cause a different layout, and zoom lets a reader inspect a
+large diagram. Fonts matter to layout because Pele measures labels before
+placing nodes. Colors use CSS variables, so a theme color change can affect
+existing SVG without another Sphinx build.</p>
+<p>The renderer itself requires no CDN. A diagram containing an external image or
+link can still refer to another server; bundling the renderer does not make
+those resources local.</p>
+</section>
+<section id="source-remains-useful-without-a-browser">
+<h2>Source remains useful without a browser<a class="headerlink" href="#source-remains-useful-without-a-browser" title="Link to this heading">¶</a></h2>
+<p>Without JavaScript, an HTML page retains a readable source listing. Text, man,
+and LaTeX builders also keep the Mermaid source as a literal block. This avoids
+discarding the diagram’s content when there is no browser to render it.</p>
+<p>A PDF produced through the LaTeX builder consequently contains source, not a
+rendered diagram. Creating static SVG, PNG, or PDF files would require a separate
+rendering step. The current extension does not provide that step.</p>
+</section>
+<section id="configuration-has-two-layers">
+<h2>Configuration has two layers<a class="headerlink" href="#configuration-has-two-layers" title="Link to this heading">¶</a></h2>
+<p>Mermaid configuration describes diagram-specific settings such as flowchart
+spacing. Pele options describe rendering behavior such as font size, responsive
+layout, and zoom. Both can appear in one diagram’s frontmatter because they
+serve different purposes.</p>
+<p>The extension merges its options before passing the original source to Pele.
+Pele then applies Mermaid’s native frontmatter and initialization directives.
+This is why a <code class="docutils literal notranslate"><span class="pre">config</span></code> value inside Mermaid source can override a default supplied
+from <code class="docutils literal notranslate"><span class="pre">conf.py</span></code>. The complete order is recorded in the
+<a class="reference internal" href="configuration.html#diagram-configuration"><span class="std std-ref">configuration reference</span></a>.</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">sphinx-pele</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Tutorial</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Build your first diagram</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">How-to guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">How to add Mermaid diagrams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="styling.html">How to style diagrams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="migration.html">How to migrate from sphinxcontrib-mermaid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">How to troubleshoot diagrams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="development.html">How to build and check the documentation locally</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Diagram examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rst-examples.html">reStructuredText examples</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Explanation</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Rendering and output</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="rst-examples.html" title="previous chapter">reStructuredText examples</a></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.0.4</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/src/rendering.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

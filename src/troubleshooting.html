@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>How to troubleshoot diagrams &#8212; sphinx-pele  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-pele.css?v=921b2862" />
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script defer="defer" src="../_static/sphinx-pele.js?v=0a06523c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="How to build and check the documentation locally" href="development.html" />
+    <link rel="prev" title="How to migrate from sphinxcontrib-mermaid" href="migration.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="how-to-troubleshoot-diagrams">
+<h1>How to troubleshoot diagrams<a class="headerlink" href="#how-to-troubleshoot-diagrams" title="Link to this heading">¶</a></h1>
+<section id="a-directive-is-unknown">
+<h2>A directive is unknown<a class="headerlink" href="#a-directive-is-unknown" title="Link to this heading">¶</a></h2>
+<p>Confirm <code class="docutils literal notranslate"><span class="pre">extensions</span></code> contains <code class="docutils literal notranslate"><span class="pre">&quot;sphinx_pele&quot;</span></code> in the <code class="docutils literal notranslate"><span class="pre">conf.py</span></code> used by your build.
+Follow the <a class="reference internal" href="usage.html"><span class="std std-doc">installation command</span></a> in the same Python environment that
+runs Sphinx. For
+Markdown, install and enable <code class="docutils literal notranslate"><span class="pre">myst_parser</span></code> too:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>myst-parser
+python<span class="w"> </span>-m<span class="w"> </span>sphinx<span class="w"> </span>-W<span class="w"> </span>-b<span class="w"> </span>html<span class="w"> </span>docs<span class="w"> </span>docs/_build/html
+</pre></div>
+</div>
+</section>
+<section id="the-extensions-conflict">
+<h2>The extensions conflict<a class="headerlink" href="#the-extensions-conflict" title="Link to this heading">¶</a></h2>
+<p>If the build says both extensions register <code class="docutils literal notranslate"><span class="pre">mermaid</span></code>, remove
+<code class="docutils literal notranslate"><span class="pre">&quot;sphinxcontrib.mermaid&quot;</span></code> from <code class="docutils literal notranslate"><span class="pre">extensions</span></code>. Follow the
+<a class="reference internal" href="migration.html"><span class="std std-doc">migration guide</span></a> to move configuration.</p>
+</section>
+<section id="configuration-produces-a-warning">
+<h2>Configuration produces a warning<a class="headerlink" href="#configuration-produces-a-warning" title="Link to this heading">¶</a></h2>
+<p>Read the file and line number attached to <code class="docutils literal notranslate"><span class="pre">invalid</span> <span class="pre">Pele</span> <span class="pre">configuration</span></code>. Check
+that <code class="docutils literal notranslate"><span class="pre">pele</span></code> is a mapping, that option names use the documented camelCase spelling,
+and that values have the required types. For example, use <code class="docutils literal notranslate"><span class="pre">zoom:</span> <span class="pre">false</span></code> rather
+than <code class="docutils literal notranslate"><span class="pre">zoom:</span> <span class="pre">&quot;false&quot;</span></code>.</p>
+<p>Keep diagram frontmatter inside the Mermaid block. For MyST <code class="docutils literal notranslate"><span class="pre">{mermaid}</span></code>
+directives, use <code class="docutils literal notranslate"><span class="pre">:options:</span></code> for renderer options; a plain <code class="docutils literal notranslate"><span class="pre">mermaid</span></code> fence is the
+simplest way to preserve diagram YAML frontmatter.</p>
+<p>Build with <code class="docutils literal notranslate"><span class="pre">-W</span></code> to make configuration warnings fail the command. Consult the
+<a class="reference internal" href="configuration.html"><span class="std std-doc">reference</span></a> for accepted options.</p>
+</section>
+<section id="the-page-shows-a-diagram-error">
+<h2>The page shows a diagram error<a class="headerlink" href="#the-page-shows-a-diagram-error" title="Link to this heading">¶</a></h2>
+<p>Copy the source into a small diagram and reduce it until the error disappears.
+Check the diagram type declaration and the line reported by Pele. A successful
+Sphinx build does not validate Mermaid syntax.</p>
+<p>For large diagrams, review <code class="docutils literal notranslate"><span class="pre">limit</span></code>, <code class="docutils literal notranslate"><span class="pre">outputLimit</span></code>, and <code class="docutils literal notranslate"><span class="pre">maxEdges</span></code> in
+<code class="docutils literal notranslate"><span class="pre">pele_options</span></code>. Raise only the limit that the error identifies, then inspect the
+rendered page again.</p>
+</section>
+<section id="html-shows-source-instead-of-svg">
+<h2>HTML shows source instead of SVG<a class="headerlink" href="#html-shows-source-instead-of-svg" title="Link to this heading">¶</a></h2>
+<p>Check that JavaScript is enabled. In the browser’s network panel, confirm that
+<code class="docutils literal notranslate"><span class="pre">_static/sphinx-pele.js</span></code> loads successfully. Deploy the complete HTML output,
+including <code class="docutils literal notranslate"><span class="pre">_static</span></code>, and check your site’s script policy if the asset loads but
+does not execute.</p>
+<p>If you are viewing text or LaTeX output, literal source is expected; see
+<a class="reference internal" href="rendering.html"><span class="std std-doc">rendering and output</span></a>.</p>
+</section>
+<section id="assets-are-missing-in-a-source-checkout">
+<h2>Assets are missing in a source checkout<a class="headerlink" href="#assets-are-missing-in-a-source-checkout" title="Link to this heading">¶</a></h2>
+<p>Build the browser assets from the repository root:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>pnpm<span class="w"> </span>--dir<span class="w"> </span>js<span class="w"> </span>install<span class="w"> </span>--frozen-lockfile
+pnpm<span class="w"> </span>--dir<span class="w"> </span>js<span class="w"> </span>build
+python<span class="w"> </span>-m<span class="w"> </span>sphinx<span class="w"> </span>-W<span class="w"> </span>-b<span class="w"> </span>html<span class="w"> </span>docs<span class="w"> </span>docs/_build/html
+</pre></div>
+</div>
+<p>Node.js and pnpm are needed when building from source. An installed wheel already
+contains these assets. See <a class="reference internal" href="development.html"><span class="std std-doc">local development</span></a> for the full setup.</p>
+</section>
+<section id="an-external-mermaid-file-cannot-be-read">
+<h2>An external Mermaid file cannot be read<a class="headerlink" href="#an-external-mermaid-file-cannot-be-read" title="Link to this heading">¶</a></h2>
+<p>Use a UTF-8 file. Resolve relative paths from the document containing the
+directive, or use a leading <code class="docutils literal notranslate"><span class="pre">/</span></code> to resolve from Sphinx’s source directory. Do not
+supply both a filename and inline diagram content in one directive.</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">sphinx-pele</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Tutorial</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Build your first diagram</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">How-to guides</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="usage.html">How to add Mermaid diagrams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="styling.html">How to style diagrams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="migration.html">How to migrate from sphinxcontrib-mermaid</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">How to troubleshoot diagrams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="development.html">How to build and check the documentation locally</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Diagram examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rst-examples.html">reStructuredText examples</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Explanation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="rendering.html">Rendering and output</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="migration.html" title="previous chapter">How to migrate from sphinxcontrib-mermaid</a></li>
+      <li>Next: <a href="development.html" title="next chapter">How to build and check the documentation locally</a></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.0.4</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/src/troubleshooting.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,9 +1,10 @@
 # How to add Mermaid diagrams
 
-Install `sphinx-pele` and enable it in `conf.py`:
+Install the development version with Python 3.11+, Git, Node.js 22+, and pnpm
+11.11.0 available, then enable it in `conf.py`:
 
 ```sh
-pip install sphinx-pele
+python -m pip install "sphinx-pele @ git+https://github.com/python-project-templates/sphinx-pele.git@main"
 ```
 
 ```python
@@ -31,8 +32,17 @@ To load a Mermaid file, use a path relative to the current document:
    :alt: Draft proceeds through review to publication.
 ```
 
-For Markdown, enable `myst_parser` alongside `sphinx_pele` and use an ordinary
-`mermaid` fence or a MyST `{mermaid}` directive:
+For Markdown, install MyST and enable both extensions:
+
+```sh
+python -m pip install myst-parser
+```
+
+```python
+extensions = ["myst_parser", "sphinx_pele"]
+```
+
+Use an ordinary `mermaid` fence or a MyST `{mermaid}` directive:
 
 ````markdown
 ```mermaid
@@ -77,3 +87,21 @@ flowchart LR
 ````
 
 See [configuration](configuration.md) for supported options and precedence.
+
+To refer to a captioned diagram in Markdown, give it `:name: publishing-flow`
+and use a MyST reference role:
+
+```markdown
+See {ref}`publishing-flow`.
+```
+
+In reStructuredText, use:
+
+```rst
+See :ref:`publishing-flow`.
+```
+
+The [rendered reStructuredText examples](rst-examples.rst) show captions, links,
+classes, and the `pele` alias together.
+
+For theme colors and zoom recipes, see [how to style diagrams](styling.md).

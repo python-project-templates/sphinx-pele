@@ -16,8 +16,8 @@
     <script defer="defer" src="../_static/sphinx-pele.js?v=0a06523c"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Configuration reference" href="configuration.html" />
-    <link rel="prev" title="sphinx-pele" href="index.html" />
+    <link rel="next" title="How to style diagrams" href="styling.html" />
+    <link rel="prev" title="Build your first diagram" href="tutorial.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -37,8 +37,9 @@
             
   <section id="how-to-add-mermaid-diagrams">
 <h1>How to add Mermaid diagrams<a class="headerlink" href="#how-to-add-mermaid-diagrams" title="Link to this heading">¶</a></h1>
-<p>Install <code class="docutils literal notranslate"><span class="pre">sphinx-pele</span></code> and enable it in <code class="docutils literal notranslate"><span class="pre">conf.py</span></code>:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>sphinx-pele
+<p>Install the development version with Python 3.11+, Git, Node.js 22+, and pnpm
+11.11.0 available, then enable it in <code class="docutils literal notranslate"><span class="pre">conf.py</span></code>:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">"sphinx-pele @ git+https://github.com/python-project-templates/sphinx-pele.git@main"</span>
 </pre></div>
 </div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">extensions</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"sphinx_pele"</span><span class="p">]</span>
@@ -60,8 +61,14 @@
    <span class="nc">:alt:</span> Draft proceeds through review to publication.
 </pre></div>
 </div>
-<p>For Markdown, enable <code class="docutils literal notranslate"><span class="pre">myst_parser</span></code> alongside <code class="docutils literal notranslate"><span class="pre">sphinx_pele</span></code> and use an ordinary
-<code class="docutils literal notranslate"><span class="pre">mermaid</span></code> fence or a MyST <code class="docutils literal notranslate"><span class="pre">{mermaid}</span></code> directive:</p>
+<p>For Markdown, install MyST and enable both extensions:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>myst-parser
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">extensions</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"myst_parser"</span><span class="p">,</span> <span class="s2">"sphinx_pele"</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Use an ordinary <code class="docutils literal notranslate"><span class="pre">mermaid</span></code> fence or a MyST <code class="docutils literal notranslate"><span class="pre">{mermaid}</span></code> directive:</p>
 <div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span><span class="sb">```mermaid</span>
 <span class="s">flowchart LR</span>
 <span class="s">    Draft --&gt; Review --&gt; Published</span>
@@ -100,6 +107,18 @@ flowchart LR
 </pre></div>
 </div>
 <p>See <a class="reference internal" href="configuration.html"><span class="std std-doc">configuration</span></a> for supported options and precedence.</p>
+<p>To refer to a captioned diagram in Markdown, give it <code class="docutils literal notranslate"><span class="pre">:name:</span> <span class="pre">publishing-flow</span></code>
+and use a MyST reference role:</p>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span>See {ref}`publishing-flow`.
+</pre></div>
+</div>
+<p>In reStructuredText, use:</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>See <span class="na">:ref:</span><span class="nv">`publishing-flow`</span>.
+</pre></div>
+</div>
+<p>The <a class="reference internal" href="rst-examples.html"><span class="std std-doc">rendered reStructuredText examples</span></a> show captions, links,
+classes, and the <code class="docutils literal notranslate"><span class="pre">pele</span></code> alias together.</p>
+<p>For theme colors and zoom recipes, see <a class="reference internal" href="styling.html"><span class="std std-doc">how to style diagrams</span></a>.</p>
 </section>
 
 
@@ -109,7 +128,7 @@ flowchart LR
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="index.html">sphinx-pele</a></h1>
+<h1 class="logo"><a href="../index.html">sphinx-pele</a></h1>
 
 
 
@@ -128,18 +147,35 @@ flowchart LR
     </div>
 </search>
 <script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Tutorial</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Build your first diagram</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">How-to guides</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">How to add Mermaid diagrams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="styling.html">How to style diagrams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="migration.html">How to migrate from sphinxcontrib-mermaid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">How to troubleshoot diagrams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="development.html">How to build and check the documentation locally</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Diagram examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rst-examples.html">reStructuredText examples</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Explanation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="rendering.html">Rendering and output</a></li>
 </ul>
 
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
-  <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="index.html" title="previous chapter">sphinx-pele</a></li>
-      <li>Next: <a href="configuration.html" title="next chapter">Configuration reference</a></li>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="tutorial.html" title="previous chapter">Build your first diagram</a></li>
+      <li>Next: <a href="styling.html" title="next chapter">How to style diagrams</a></li>
   </ul></li>
 </ul>
 </div>

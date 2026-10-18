@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>reStructuredText examples &#8212; sphinx-pele  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-pele.css?v=921b2862" />
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script defer="defer" src="../_static/sphinx-pele.js?v=0a06523c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Rendering and output" href="rendering.html" />
+    <link rel="prev" title="Diagram examples" href="examples.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="restructuredtext-examples">
+<h1>reStructuredText examples<a class="headerlink" href="#restructuredtext-examples" title="Link to this heading">¶</a></h1>
+<p>These examples use standard Sphinx directives. Each source listing is followed
+by its rendered result. Markdown equivalents appear in <a class="reference internal" href="usage.html"><span class="doc">How to add Mermaid diagrams</span></a>.</p>
+<section id="caption-reference-and-accessible-label">
+<h2>Caption, reference, and accessible label<a class="headerlink" href="#caption-reference-and-accessible-label" title="Link to this heading">¶</a></h2>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">mermaid</span><span class="p">::</span> examples/states.mmd
+   <span class="nc">:caption:</span> Document review states
+   <span class="nc">:name:</span> review-states
+   <span class="nc">:alt:</span> A draft moves to review, then returns for revision or is published.
+   <span class="nc">:align:</span> center
+
+See <span class="na">:ref:</span><span class="nv">`review-states`</span>.
+</pre></div>
+</div>
+<figure class="align-center" id="review-states">
+<div class="sphinx-pele align-center" data-pele-options="{&quot;zoom&quot;: false}" data-pele-css="{}" aria-label="A draft moves to review, then returns for revision or is published." role="group"><pre>stateDiagram-v2
+    [*] --&gt; Draft
+    Draft --&gt; Review : submit
+    Review --&gt; Draft : revise
+    Review --&gt; Published : approve
+    Published --&gt; [*]
+</pre></div><figcaption>
+<p><span class="caption-text">Document review states</span><a class="headerlink" href="#review-states" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+<p>See <a class="reference internal" href="#review-states"><span class="std std-ref">Document review states</span></a>.</p>
+</section>
+<section id="a-fixed-direction-with-zoom-controls">
+<h2>A fixed direction with zoom controls<a class="headerlink" href="#a-fixed-direction-with-zoom-controls" title="Link to this heading">¶</a></h2>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">mermaid</span><span class="p">::</span>
+   <span class="nc">:options:</span> {autoDirection: false, fontSize: 18}
+   <span class="nc">:zoom:</span> {always: true, maxScale: 4, labels: {zoomIn: Enlarge}}
+   <span class="nc">:width:</span> 80%
+   <span class="nc">:align:</span> center
+
+   flowchart LR
+       Draft --&gt; Review --&gt; Published
+</pre></div>
+</div>
+<div class="sphinx-pele align-center" data-pele-options="{&quot;zoom&quot;: {&quot;always&quot;: true, &quot;maxScale&quot;: 4, &quot;labels&quot;: {&quot;zoomIn&quot;: &quot;Enlarge&quot;}}, &quot;autoDirection&quot;: false, &quot;fontSize&quot;: 18}" data-pele-css="{}" data-pele-width="80%"><pre>flowchart LR
+    Draft --&gt; Review --&gt; Published</pre></div></section>
+<section id="a-regular-code-block">
+<h2>A regular code block<a class="headerlink" href="#a-regular-code-block" title="Link to this heading">¶</a></h2>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">code-block</span><span class="p">::</span> <span class="k">mermaid</span>
+
+<span class="s">   flowchart TD</span>
+<span class="s">       Source --&gt; Build --&gt; Preview</span>
+</pre></div>
+</div>
+<div class="sphinx-pele" data-pele-options="{&quot;zoom&quot;: false}" data-pele-css="{}"><pre>flowchart TD
+    Source --&gt; Build --&gt; Preview</pre></div></section>
+<section id="the-pele-directive-alias">
+<h2>The Pele directive alias<a class="headerlink" href="#the-pele-directive-alias" title="Link to this heading">¶</a></h2>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">pele</span><span class="p">::</span>
+   <span class="nc">:title:</span> Review decision
+   <span class="nc">:config:</span> {flowchart: {nodeSpacing: 50}}
+   <span class="nc">:class:</span> review-diagram
+
+   flowchart TD
+       Review{Approved?} --&gt;|Yes| Publish
+       Review --&gt;|No| Revise
+</pre></div>
+</div>
+<div class="review-diagram"><div class="sphinx-pele review-diagram" data-pele-options="{&quot;zoom&quot;: false, &quot;config&quot;: {&quot;flowchart&quot;: {&quot;nodeSpacing&quot;: 50}}}" data-pele-css="{}" data-pele-title="Review decision"><pre>flowchart TD
+    Review{Approved?} --&gt;|Yes| Publish
+    Review --&gt;|No| Revise</pre></div></div></section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">sphinx-pele</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Tutorial</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Build your first diagram</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">How-to guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">How to add Mermaid diagrams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="styling.html">How to style diagrams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="migration.html">How to migrate from sphinxcontrib-mermaid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">How to troubleshoot diagrams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="development.html">How to build and check the documentation locally</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Diagram examples</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">reStructuredText examples</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Explanation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="rendering.html">Rendering and output</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="examples.html" title="previous chapter">Diagram examples</a></li>
+      <li>Next: <a href="rendering.html" title="next chapter">Rendering and output</a></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.0.4</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/src/rst-examples.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

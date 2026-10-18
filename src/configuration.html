@@ -17,7 +17,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Diagram examples" href="examples.html" />
-    <link rel="prev" title="How to add Mermaid diagrams" href="usage.html" />
+    <link rel="prev" title="How to build and check the documentation locally" href="development.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
@@ -37,6 +37,30 @@
             
   <section id="configuration-reference">
 <h1>Configuration reference<a class="headerlink" href="#configuration-reference" title="Link to this heading">¶</a></h1>
+<section id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Link to this heading">¶</a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Component</p></th>
+<th class="head"><p>Requirement</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Python</p></td>
+<td><p>3.11 or newer</p></td>
+</tr>
+<tr class="row-odd"><td><p>Sphinx</p></td>
+<td><p>7.4 or newer</p></td>
+</tr>
+<tr class="row-even"><td><p>MyST</p></td>
+<td><p>Optional, for Markdown documents</p></td>
+</tr>
+<tr class="row-odd"><td><p>Node.js and pnpm</p></td>
+<td><p>Needed to build from source; not needed to use an installed wheel</p></td>
+</tr>
+</tbody>
+</table>
+</section>
 <section id="sphinx-settings">
 <h2>Sphinx settings<a class="headerlink" href="#sphinx-settings" title="Link to this heading">¶</a></h2>
 <table class="docutils align-default">
@@ -62,7 +86,7 @@ CSS, with no CDN or Node.js runtime requirement. Building the package from sourc
 requires Node.js and pnpm.</p>
 </section>
 <section id="diagram-configuration">
-<h2>Diagram configuration<a class="headerlink" href="#diagram-configuration" title="Link to this heading">¶</a></h2>
+<span id="id1"></span><h2>Diagram configuration<a class="headerlink" href="#diagram-configuration" title="Link to this heading">¶</a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">pele</span></code> mapping in <strong>diagram</strong> YAML frontmatter accepts the same options as
 <code class="docutils literal notranslate"><span class="pre">pele_options</span></code>, plus <code class="docutils literal notranslate"><span class="pre">cssVariables</span></code>. It is not document-level MyST frontmatter.
 The source, including Mermaid <code class="docutils literal notranslate"><span class="pre">title</span></code>, <code class="docutils literal notranslate"><span class="pre">config</span></code>, and <code class="docutils literal notranslate"><span class="pre">%%{init:</span> <span class="pre">...}%%</span></code> directives,
@@ -116,6 +140,10 @@ settings and diagram <code class="docutils literal notranslate"><span class="pre
 </tbody>
 </table>
 <p>Zoom mappings accept Pele’s <code class="docutils literal notranslate"><span class="pre">always</span></code>, <code class="docutils literal notranslate"><span class="pre">maxScale</span></code>, <code class="docutils literal notranslate"><span class="pre">controls</span></code>, and <code class="docutils literal notranslate"><span class="pre">labels</span></code> options.
+<code class="docutils literal notranslate"><span class="pre">labels</span></code> is a mapping with <code class="docutils literal notranslate"><span class="pre">zoomIn</span></code>, <code class="docutils literal notranslate"><span class="pre">zoomOut</span></code>, and <code class="docutils literal notranslate"><span class="pre">reset</span></code> strings. The default
+<code class="docutils literal notranslate"><span class="pre">zoom:</span> <span class="pre">&quot;auto&quot;</span></code> shows controls when a diagram shrinks to fit; <code class="docutils literal notranslate"><span class="pre">true</span></code> always enables
+zoom and <code class="docutils literal notranslate"><span class="pre">false</span></code> disables it. The documentation gallery explicitly disables zoom
+by default and enables it on selected examples.
 Pele supplies defaults for omitted values. Mounting measures the container width;
 <code class="docutils literal notranslate"><span class="pre">:width:</span></code> controls the container’s available width. <code class="docutils literal notranslate"><span class="pre">maxWidth</span></code> is accepted for API
 compatibility but Pele’s mount operation uses the measured width.</p>
@@ -188,6 +216,41 @@ Text, LaTeX, man, and other non-HTML builders emit source as a literal block;
 PDF/image export is not implemented. Mermaid CLI options, D3 zoom, and
 <code class="docutils literal notranslate"><span class="pre">sphinxcontrib.mermaid</span></code>’s class-tree generator are not supported.</p>
 </section>
+<section id="errors">
+<h2>Errors<a class="headerlink" href="#errors" title="Link to this heading">¶</a></h2>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Condition</p></th>
+<th class="head"><p>Result</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Invalid <code class="docutils literal notranslate"><span class="pre">pele_options</span></code> or <code class="docutils literal notranslate"><span class="pre">pele_css_variables</span></code> in <code class="docutils literal notranslate"><span class="pre">conf.py</span></code></p></td>
+<td><p>Sphinx configuration error.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Both Mermaid extensions enabled</p></td>
+<td><p>Sphinx configuration error.</p></td>
+</tr>
+<tr class="row-even"><td><p>Empty directive, missing file, or invalid directive option</p></td>
+<td><p>Document parsing error.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Invalid diagram frontmatter or <code class="docutils literal notranslate"><span class="pre">pele</span></code> option</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">pele.config</span></code> warning; source remains a literal block.</p></td>
+</tr>
+<tr class="row-even"><td><p>Missing packaged browser assets</p></td>
+<td><p>HTML builder initialization error.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Invalid Mermaid syntax or a rendering limit exceeded</p></td>
+<td><p>Browser error display from Pele.</p></td>
+</tr>
+</tbody>
+</table>
+<p>The extension validates the top-level types of renderer options. Nested Mermaid
+settings and zoom mapping contents are passed to Pele; they do not receive a
+complete schema check in Python. Date-like YAML values must be quoted when used
+as strings; <code class="docutils literal notranslate"><span class="pre">now</span></code> accepts a numeric timestamp, not a YAML date.</p>
+<p>See <a class="reference internal" href="troubleshooting.html"><span class="std std-doc">troubleshooting</span></a> for recovery steps.</p>
+</section>
 </section>
 
 
@@ -197,7 +260,7 @@ PDF/image export is not implemented. Mermaid CLI options, D3 zoom, and
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="index.html">sphinx-pele</a></h1>
+<h1 class="logo"><a href="../index.html">sphinx-pele</a></h1>
 
 
 
@@ -216,24 +279,34 @@ PDF/image export is not implemented. Mermaid CLI options, D3 zoom, and
     </div>
 </search>
 <script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="usage.html">How to add Mermaid diagrams</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Configuration reference</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#sphinx-settings">Sphinx settings</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#diagram-configuration">Diagram configuration</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#render-options">Render options</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#directives">Directives</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#themes-and-builders">Themes and builders</a></li>
+<p class="caption" role="heading"><span class="caption-text">Tutorial</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Build your first diagram</a></li>
 </ul>
-</li>
+<p class="caption" role="heading"><span class="caption-text">How-to guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">How to add Mermaid diagrams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="styling.html">How to style diagrams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="migration.html">How to migrate from sphinxcontrib-mermaid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">How to troubleshoot diagrams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="development.html">How to build and check the documentation locally</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Configuration reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="examples.html">Diagram examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rst-examples.html">reStructuredText examples</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Explanation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="rendering.html">Rendering and output</a></li>
 </ul>
 
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
-  <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="usage.html" title="previous chapter">How to add Mermaid diagrams</a></li>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="development.html" title="previous chapter">How to build and check the documentation locally</a></li>
       <li>Next: <a href="examples.html" title="next chapter">Diagram examples</a></li>
   </ul></li>
 </ul>

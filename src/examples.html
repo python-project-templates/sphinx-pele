@@ -16,6 +16,7 @@
     <script defer="defer" src="../_static/sphinx-pele.js?v=0a06523c"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="reStructuredText examples" href="rst-examples.html" />
     <link rel="prev" title="Configuration reference" href="configuration.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
@@ -36,8 +37,31 @@
             
   <section id="diagram-examples">
 <h1>Diagram examples<a class="headerlink" href="#diagram-examples" title="Link to this heading">¶</a></h1>
+<p>Each example shows its Mermaid source and rendered output. The source listing
+and diagram read the same file, so the text is directly reusable in a <code class="docutils literal notranslate"><span class="pre">mermaid</span></code>
+fence or directive. These examples exercise the bundled Pele renderer; they do
+not imply support for every Mermaid option.</p>
+<p>For Sphinx authoring patterns, see <a class="reference internal" href="rst-examples.html"><span class="std std-doc">reStructuredText examples</span></a>
+and <a class="reference internal" href="usage.html"><span class="std std-doc">how to add diagrams</span></a>. Styling recipes are in
+<a class="reference internal" href="styling.html"><span class="std std-doc">how to style diagrams</span></a>.</p>
 <section id="flowchart-with-frontmatter">
 <h2>Flowchart with frontmatter<a class="headerlink" href="#flowchart-with-frontmatter" title="Link to this heading">¶</a></h2>
+<p>Diagram frontmatter supplies a title, layout settings, font size, and a CSS variable.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>---
+title: Publishing
+config:
+  flowchart:
+    nodeSpacing: 35
+pele:
+  autoDirection: false
+  fontSize: 18
+  cssVariables:
+    --pele-accent: "#205ea6"
+---
+flowchart LR
+    Draft --&gt; Review --&gt; Published
+</pre></div>
+</div>
 <div class="sphinx-pele" data-pele-options="{&quot;zoom&quot;: false, &quot;autoDirection&quot;: false, &quot;fontSize&quot;: 18}" data-pele-css="{&quot;--pele-accent&quot;: &quot;#205ea6&quot;}"><pre>---
 title: Publishing
 config:
@@ -54,16 +78,28 @@ flowchart LR
 </pre></div></section>
 <section id="sequence-diagram">
 <h2>Sequence diagram<a class="headerlink" href="#sequence-diagram" title="Link to this heading">¶</a></h2>
+<p>A caption, named reference, accessible label, width, and zoom controls are attached by the Sphinx directive.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>sequenceDiagram
+    Client-&gt;&gt;Server: GET /docs
+    Server--&gt;&gt;Client: HTML
+</pre></div>
+</div>
 <figure class="align-default" id="request-flow">
 <div class="sphinx-pele" data-pele-options="{&quot;zoom&quot;: true}" data-pele-css="{}" data-pele-width="75%" aria-label="Client requests a page from the server." role="group"><pre>sequenceDiagram
     Client-&gt;&gt;Server: GET /docs
-    Server--&gt;&gt;Client: HTML</pre></div><figcaption>
+    Server--&gt;&gt;Client: HTML
+</pre></div><figcaption>
 <p><span class="caption-text">A <strong>request</strong> and response.</span><a class="headerlink" href="#request-flow" title="Link to this image">¶</a></p>
 </figcaption>
 </figure>
 </section>
 <section id="external-file">
 <h2>External file<a class="headerlink" href="#external-file" title="Link to this heading">¶</a></h2>
+<p>The same UTF-8 file supplies the source listing and diagram. Sphinx tracks it as a build dependency.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>flowchart TD
+    Source[Mermaid source] --&gt; Pele --&gt; SVG
+</pre></div>
+</div>
 <figure class="align-default" id="id1">
 <div class="sphinx-pele" data-pele-options="{&quot;zoom&quot;: false}" data-pele-css="{}"><pre>flowchart TD
     Source[Mermaid source] --&gt; Pele --&gt; SVG
@@ -74,10 +110,287 @@ flowchart LR
 </section>
 <section id="pie-chart">
 <h2>Pie chart<a class="headerlink" href="#pie-chart" title="Link to this heading">¶</a></h2>
+<p>A chart with two labeled slices.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>pie title Tasks
+    "Complete" : 8
+    "Remaining" : 2
+</pre></div>
+</div>
 <div class="sphinx-pele" data-pele-options="{&quot;zoom&quot;: false}" data-pele-css="{}"><pre>pie title Tasks
     &quot;Complete&quot; : 8
     &quot;Remaining&quot; : 2
 </pre></div></section>
+<section id="class-diagram">
+<h2>Class diagram<a class="headerlink" href="#class-diagram" title="Link to this heading">¶</a></h2>
+<p>Classes, members, and a composition relationship.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>classDiagram
+    class Document {
+        +String title
+        +render()
+    }
+    class Diagram {
+        +String source
+        +toSVG()
+    }
+    Document "1" *-- "many" Diagram : contains
+</pre></div>
+</div>
+<div class="sphinx-pele" data-pele-options="{&quot;zoom&quot;: false}" data-pele-css="{}"><pre>classDiagram
+    class Document {
+        +String title
+        +render()
+    }
+    class Diagram {
+        +String source
+        +toSVG()
+    }
+    Document &quot;1&quot; *-- &quot;many&quot; Diagram : contains
+</pre></div></section>
+<section id="entity-relationship-diagram">
+<h2>Entity relationship diagram<a class="headerlink" href="#entity-relationship-diagram" title="Link to this heading">¶</a></h2>
+<p>A documentation collection with pages and embedded diagrams.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>erDiagram
+    COLLECTION ||--o{ PAGE : contains
+    PAGE ||--o{ DIAGRAM : embeds
+    PAGE {
+        string slug PK
+        string title
+    }
+    DIAGRAM {
+        string id PK
+        string source
+    }
+</pre></div>
+</div>
+<div class="sphinx-pele" data-pele-options="{&quot;zoom&quot;: false}" data-pele-css="{}"><pre>erDiagram
+    COLLECTION ||--o{ PAGE : contains
+    PAGE ||--o{ DIAGRAM : embeds
+    PAGE {
+        string slug PK
+        string title
+    }
+    DIAGRAM {
+        string id PK
+        string source
+    }
+</pre></div></section>
+<section id="state-diagram">
+<h2>State diagram<a class="headerlink" href="#state-diagram" title="Link to this heading">¶</a></h2>
+<p>Transitions through a review cycle, including a return to the draft state.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>stateDiagram-v2
+    [*] --&gt; Draft
+    Draft --&gt; Review : submit
+    Review --&gt; Draft : revise
+    Review --&gt; Published : approve
+    Published --&gt; [*]
+</pre></div>
+</div>
+<div class="sphinx-pele" data-pele-options="{&quot;zoom&quot;: false}" data-pele-css="{}"><pre>stateDiagram-v2
+    [*] --&gt; Draft
+    Draft --&gt; Review : submit
+    Review --&gt; Draft : revise
+    Review --&gt; Published : approve
+    Published --&gt; [*]
+</pre></div></section>
+<section id="gantt-chart">
+<h2>Gantt chart<a class="headerlink" href="#gantt-chart" title="Link to this heading">¶</a></h2>
+<p>Fixed dates and a disabled today marker keep this example stable across builds.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>gantt
+    title Documentation work
+    dateFormat YYYY-MM-DD
+    todayMarker off
+    section Writing
+    Draft tutorial :done, draft, 2026-10-01, 3d
+    Add examples :active, examples, after draft, 4d
+    section Review
+    Build and review :review, after examples, 2d
+</pre></div>
+</div>
+<div class="sphinx-pele" data-pele-options="{&quot;zoom&quot;: false}" data-pele-css="{}"><pre>gantt
+    title Documentation work
+    dateFormat YYYY-MM-DD
+    todayMarker off
+    section Writing
+    Draft tutorial :done, draft, 2026-10-01, 3d
+    Add examples :active, examples, after draft, 4d
+    section Review
+    Build and review :review, after examples, 2d
+</pre></div></section>
+<section id="user-journey">
+<h2>User journey<a class="headerlink" href="#user-journey" title="Link to this heading">¶</a></h2>
+<p>Scores describe how a reader experiences each part of a documentation task.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>journey
+    title Add a diagram
+    section Author
+      Write Mermaid: 5: Writer
+      Build docs: 4: Writer
+    section Review
+      Check rendering: 4: Reviewer
+      Publish: 5: Writer, Reviewer
+</pre></div>
+</div>
+<div class="sphinx-pele" data-pele-options="{&quot;zoom&quot;: false}" data-pele-css="{}"><pre>journey
+    title Add a diagram
+    section Author
+      Write Mermaid: 5: Writer
+      Build docs: 4: Writer
+    section Review
+      Check rendering: 4: Reviewer
+      Publish: 5: Writer, Reviewer
+</pre></div></section>
+<section id="git-graph">
+<h2>Git graph<a class="headerlink" href="#git-graph" title="Link to this heading">¶</a></h2>
+<p>A documentation branch merged back into main.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>gitGraph
+    commit id: "Start"
+    branch docs
+    checkout docs
+    commit id: "Add examples"
+    checkout main
+    merge docs
+    commit id: "Publish"
+</pre></div>
+</div>
+<div class="sphinx-pele" data-pele-options="{&quot;zoom&quot;: false}" data-pele-css="{}"><pre>gitGraph
+    commit id: &quot;Start&quot;
+    branch docs
+    checkout docs
+    commit id: &quot;Add examples&quot;
+    checkout main
+    merge docs
+    commit id: &quot;Publish&quot;
+</pre></div></section>
+<section id="mind-map">
+<h2>Mind map<a class="headerlink" href="#mind-map" title="Link to this heading">¶</a></h2>
+<p>A hierarchy of documentation topics.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>mindmap
+    root((Documentation))
+        Tutorial
+            First diagram
+        Guides
+            Style diagrams
+            Migrate
+        Reference
+            Options
+            Examples
+</pre></div>
+</div>
+<div class="sphinx-pele" data-pele-options="{&quot;zoom&quot;: false}" data-pele-css="{}"><pre>mindmap
+    root((Documentation))
+        Tutorial
+            First diagram
+        Guides
+            Style diagrams
+            Migrate
+        Reference
+            Options
+            Examples
+</pre></div></section>
+<section id="timeline">
+<h2>Timeline<a class="headerlink" href="#timeline" title="Link to this heading">¶</a></h2>
+<p>Milestones grouped by month.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>timeline
+    title Documentation milestones
+    October : Tutorial : Diagram gallery
+    November : Reader feedback
+    December : Reference review
+</pre></div>
+</div>
+<div class="sphinx-pele" data-pele-options="{&quot;zoom&quot;: false}" data-pele-css="{}"><pre>timeline
+    title Documentation milestones
+    October : Tutorial : Diagram gallery
+    November : Reader feedback
+    December : Reference review
+</pre></div></section>
+<section id="quadrant-chart">
+<h2>Quadrant chart<a class="headerlink" href="#quadrant-chart" title="Link to this heading">¶</a></h2>
+<p>Work items positioned by effort and reader impact.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>quadrantChart
+    title Documentation priorities
+    x-axis Low effort --&gt; High effort
+    y-axis Low impact --&gt; High impact
+    quadrant-1 Plan
+    quadrant-2 Do first
+    quadrant-3 Fit in
+    quadrant-4 Reconsider
+    Tutorial: [0.3, 0.9]
+    Examples: [0.4, 0.8]
+    New theme: [0.8, 0.3]
+</pre></div>
+</div>
+<div class="sphinx-pele" data-pele-options="{&quot;zoom&quot;: false}" data-pele-css="{}"><pre>quadrantChart
+    title Documentation priorities
+    x-axis Low effort --&gt; High effort
+    y-axis Low impact --&gt; High impact
+    quadrant-1 Plan
+    quadrant-2 Do first
+    quadrant-3 Fit in
+    quadrant-4 Reconsider
+    Tutorial: [0.3, 0.9]
+    Examples: [0.4, 0.8]
+    New theme: [0.8, 0.3]
+</pre></div></section>
+<section id="sankey-diagram">
+<h2>Sankey diagram<a class="headerlink" href="#sankey-diagram" title="Link to this heading">¶</a></h2>
+<p>Values represent reader traffic between documentation sections.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>sankey-beta
+Home,Tutorial,40
+Home,Reference,60
+Tutorial,Examples,30
+Reference,Examples,20
+</pre></div>
+</div>
+<div class="sphinx-pele" data-pele-options="{&quot;zoom&quot;: false}" data-pele-css="{}"><pre>sankey-beta
+Home,Tutorial,40
+Home,Reference,60
+Tutorial,Examples,30
+Reference,Examples,20
+</pre></div></section>
+<section id="xy-chart">
+<h2>XY chart<a class="headerlink" href="#xy-chart" title="Link to this heading">¶</a></h2>
+<p>Bars show completed examples over four weeks.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>xychart-beta
+    title "Reviewed examples"
+    x-axis [Week1, Week2, Week3, Week4]
+    y-axis "Examples" 0 --&gt; 20
+    bar [4, 8, 12, 16]
+</pre></div>
+</div>
+<div class="sphinx-pele" data-pele-options="{&quot;zoom&quot;: false}" data-pele-css="{}"><pre>xychart-beta
+    title &quot;Reviewed examples&quot;
+    x-axis [Week1, Week2, Week3, Week4]
+    y-axis &quot;Examples&quot; 0 --&gt; 20
+    bar [4, 8, 12, 16]
+</pre></div></section>
+<section id="requirement-diagram">
+<h2>Requirement diagram<a class="headerlink" href="#requirement-diagram" title="Link to this heading">¶</a></h2>
+<p>A test element verifies a rendering requirement.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>requirementDiagram
+    requirement diagram_output {
+        id: 1
+        text: Diagrams render as SVG
+        risk: low
+        verifymethod: test
+    }
+    element browser_test {
+        type: "test"
+    }
+    browser_test - verifies -&gt; diagram_output
+</pre></div>
+</div>
+<div class="sphinx-pele" data-pele-options="{&quot;zoom&quot;: false}" data-pele-css="{}"><pre>requirementDiagram
+    requirement diagram_output {
+        id: 1
+        text: Diagrams render as SVG
+        risk: low
+        verifymethod: test
+    }
+    element browser_test {
+        type: &quot;test&quot;
+    }
+    browser_test - verifies -&gt; diagram_output
+</pre></div><p>The sequence figure can be referenced as <a class="reference internal" href="#request-flow"><span class="std std-ref">A request and response.</span></a>.</p>
+</section>
 </section>
 
 
@@ -87,7 +400,7 @@ flowchart LR
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="Main">
         <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="index.html">sphinx-pele</a></h1>
+<h1 class="logo"><a href="../index.html">sphinx-pele</a></h1>
 
 
 
@@ -106,23 +419,35 @@ flowchart LR
     </div>
 </search>
 <script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="usage.html">How to add Mermaid diagrams</a></li>
-<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration reference</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Diagram examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#flowchart-with-frontmatter">Flowchart with frontmatter</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#sequence-diagram">Sequence diagram</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#external-file">External file</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#pie-chart">Pie chart</a></li>
+<p class="caption" role="heading"><span class="caption-text">Tutorial</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Build your first diagram</a></li>
 </ul>
-</li>
+<p class="caption" role="heading"><span class="caption-text">How-to guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">How to add Mermaid diagrams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="styling.html">How to style diagrams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="migration.html">How to migrate from sphinxcontrib-mermaid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">How to troubleshoot diagrams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="development.html">How to build and check the documentation locally</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration reference</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Diagram examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rst-examples.html">reStructuredText examples</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Explanation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="rendering.html">Rendering and output</a></li>
 </ul>
 
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
-  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
       <li>Previous: <a href="configuration.html" title="previous chapter">Configuration reference</a></li>
+      <li>Next: <a href="rst-examples.html" title="next chapter">reStructuredText examples</a></li>
   </ul></li>
 </ul>
 </div>
