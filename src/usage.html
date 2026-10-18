@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>How to add Mermaid diagrams &#8212; sphinx-pele  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-pele.css?v=921b2862" />
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script defer="defer" src="../_static/sphinx-pele.js?v=0a06523c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Configuration reference" href="configuration.html" />
+    <link rel="prev" title="sphinx-pele" href="index.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="how-to-add-mermaid-diagrams">
+<h1>How to add Mermaid diagrams<a class="headerlink" href="#how-to-add-mermaid-diagrams" title="Link to this heading">¶</a></h1>
+<p>Install <code class="docutils literal notranslate"><span class="pre">sphinx-pele</span></code> and enable it in <code class="docutils literal notranslate"><span class="pre">conf.py</span></code>:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>sphinx-pele
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">extensions</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"sphinx_pele"</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Replace <code class="docutils literal notranslate"><span class="pre">sphinxcontrib.mermaid</span></code> if it is enabled. Both extensions register the
+<code class="docutils literal notranslate"><span class="pre">mermaid</span></code> directive.</p>
+<p>Add a diagram in reStructuredText:</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">mermaid</span><span class="p">::</span>
+   <span class="nc">:caption:</span> Publishing flow
+   <span class="nc">:name:</span> publishing
+
+   flowchart LR
+       Draft --&gt; Review --&gt; Published
+</pre></div>
+</div>
+<p>To load a Mermaid file, use a path relative to the current document:</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span><span class="p">..</span> <span class="ow">mermaid</span><span class="p">::</span> diagrams/publishing.mmd
+   <span class="nc">:alt:</span> Draft proceeds through review to publication.
+</pre></div>
+</div>
+<p>For Markdown, enable <code class="docutils literal notranslate"><span class="pre">myst_parser</span></code> alongside <code class="docutils literal notranslate"><span class="pre">sphinx_pele</span></code> and use an ordinary
+<code class="docutils literal notranslate"><span class="pre">mermaid</span></code> fence or a MyST <code class="docutils literal notranslate"><span class="pre">{mermaid}</span></code> directive:</p>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span><span class="sb">```mermaid</span>
+<span class="s">flowchart LR</span>
+<span class="s">    Draft --&gt; Review --&gt; Published</span>
+<span class="sb">```</span>
+
+```{mermaid}
+:caption: Publishing flow
+:zoom: true
+
+flowchart LR
+    Draft --&gt; Review --&gt; Published
+```
+</pre></div>
+</div>
+<p>Set defaults in <code class="docutils literal notranslate"><span class="pre">conf.py</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pele_options</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"fontSize"</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span> <span class="s2">"zoom"</span><span class="p">:</span> <span class="s2">"auto"</span><span class="p">,</span> <span class="s2">"config"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"flowchart"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"nodeSpacing"</span><span class="p">:</span> <span class="mi">30</span><span class="p">}}}</span>
+<span class="n">pele_css_variables</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"--pele-accent"</span><span class="p">:</span> <span class="s2">"#205ea6"</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>To customize one diagram, add Mermaid frontmatter:</p>
+<div class="highlight-markdown notranslate"><div class="highlight"><pre><span></span><span class="gu">```mermaid</span>
+<span class="gu">---</span>
+title: Publishing
+config:
+  flowchart:
+    nodeSpacing: 40
+pele:
+  fontSize: 18
+  zoom: false
+  cssVariables:
+<span class="gu">    --pele-accent: "#205ea6"</span>
+<span class="gu">---</span>
+flowchart LR
+    Draft --&gt; Review --&gt; Published
+```
+</pre></div>
+</div>
+<p>See <a class="reference internal" href="configuration.html"><span class="std std-doc">configuration</span></a> for supported options and precedence.</p>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">sphinx-pele</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">How to add Mermaid diagrams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Diagram examples</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">sphinx-pele</a></li>
+      <li>Next: <a href="configuration.html" title="next chapter">Configuration reference</a></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.0.4</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/src/usage.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

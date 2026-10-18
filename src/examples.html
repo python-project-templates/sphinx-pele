@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Diagram examples &#8212; sphinx-pele  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-pele.css?v=921b2862" />
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script defer="defer" src="../_static/sphinx-pele.js?v=0a06523c"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Configuration reference" href="configuration.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="diagram-examples">
+<h1>Diagram examples<a class="headerlink" href="#diagram-examples" title="Link to this heading">¶</a></h1>
+<section id="flowchart-with-frontmatter">
+<h2>Flowchart with frontmatter<a class="headerlink" href="#flowchart-with-frontmatter" title="Link to this heading">¶</a></h2>
+<div class="sphinx-pele" data-pele-options="{&quot;zoom&quot;: false, &quot;autoDirection&quot;: false, &quot;fontSize&quot;: 18}" data-pele-css="{&quot;--pele-accent&quot;: &quot;#205ea6&quot;}"><pre>---
+title: Publishing
+config:
+  flowchart:
+    nodeSpacing: 35
+pele:
+  autoDirection: false
+  fontSize: 18
+  cssVariables:
+    --pele-accent: &quot;#205ea6&quot;
+---
+flowchart LR
+    Draft --&gt; Review --&gt; Published
+</pre></div></section>
+<section id="sequence-diagram">
+<h2>Sequence diagram<a class="headerlink" href="#sequence-diagram" title="Link to this heading">¶</a></h2>
+<figure class="align-default" id="request-flow">
+<div class="sphinx-pele" data-pele-options="{&quot;zoom&quot;: true}" data-pele-css="{}" data-pele-width="75%" aria-label="Client requests a page from the server." role="group"><pre>sequenceDiagram
+    Client-&gt;&gt;Server: GET /docs
+    Server--&gt;&gt;Client: HTML</pre></div><figcaption>
+<p><span class="caption-text">A <strong>request</strong> and response.</span><a class="headerlink" href="#request-flow" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="external-file">
+<h2>External file<a class="headerlink" href="#external-file" title="Link to this heading">¶</a></h2>
+<figure class="align-default" id="id1">
+<div class="sphinx-pele" data-pele-options="{&quot;zoom&quot;: false}" data-pele-css="{}"><pre>flowchart TD
+    Source[Mermaid source] --&gt; Pele --&gt; SVG
+</pre></div><figcaption>
+<p><span class="caption-text">Loaded from a Mermaid document.</span><a class="headerlink" href="#id1" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="pie-chart">
+<h2>Pie chart<a class="headerlink" href="#pie-chart" title="Link to this heading">¶</a></h2>
+<div class="sphinx-pele" data-pele-options="{&quot;zoom&quot;: false}" data-pele-css="{}"><pre>pie title Tasks
+    &quot;Complete&quot; : 8
+    &quot;Remaining&quot; : 2
+</pre></div></section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">sphinx-pele</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="usage.html">How to add Mermaid diagrams</a></li>
+<li class="toctree-l1"><a class="reference internal" href="configuration.html">Configuration reference</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Diagram examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#flowchart-with-frontmatter">Flowchart with frontmatter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sequence-diagram">Sequence diagram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#external-file">External file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pie-chart">Pie chart</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="configuration.html" title="previous chapter">Configuration reference</a></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.0.4</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/src/examples.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
