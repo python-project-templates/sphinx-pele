@@ -1,0 +1,6 @@
+allowBuilds:
+  esbuild: true
+
+# Allow the pinned Pele release during pnpm's 24-hour release delay.
+minimumReleaseAgeExclude:
+  - pele@1.6.0

@@ -1,44 +1,72 @@
 #########
 # BUILD #
 #########
-.PHONY: develop build install
-
-develop:  ## install dependencies and build library
+.PHONY: develop-py develop-js develop
+develop-py:
 	uv pip install -e .[develop]
 
-requirements:  ## install prerequisite python build requirements
+develop-js: requirements-js
+
+develop: develop-js develop-py  ## setup project for development
+
+.PHONY: requirements-py requirements-js requirements
+requirements-py:  ## install prerequisite python build requirements
 	uv pip install -r pyproject.toml --extra develop
 
-build:  ## build the python library
-	python -m build -n
+requirements-js:  ## install prerequisite javascript build requirements
+	pnpm --dir js install --frozen-lockfile
+	pnpm --dir js exec playwright install chromium
 
-install:  ## install library
+requirements: requirements-js requirements-py  ## setup project for development
+
+.PHONY: build-py build-js build
+build-py:
+	python -m build -w -n
+
+build-js:
+	cd js; pnpm build
+
+build: build-js build-py  ## build the project
+
+.PHONY: install
+install:  ## install python library
 	uv pip install .
 
 #########
 # LINTS #
 #########
-.PHONY: lint-py lint-docs fix-py fix-docs lint lints fix format
-
-lint-py:  ## lint python with ruff
+.PHONY: lint-py lint-js lint lints
+lint-py:  ## run python linter with ruff
 	python -m ruff check sphinx_pele
 	python -m ruff format --check sphinx_pele
 
-lint-docs:  ## lint docs with mdformat and codespell
-	python -m mdformat --check README.md $(wildcard docs/src) 
-	python -m codespell_lib README.md $(wildcard docs/src) 
+lint-js:  ## run js linter
+	cd js; pnpm lint
 
-fix-py:  ## autoformat python code with ruff
+lint-docs:  ## lint docs with mdformat and codespell
+	python -m mdformat --check README.md docs/src
+	python -m codespell_lib README.md docs/src
+
+lint: lint-js lint-py lint-docs  ## run project linters
+
+# alias
+lints: lint
+
+.PHONY: fix-py fix-js fix-docs fix format
+fix-py:  ## fix python formatting with ruff
 	python -m ruff check --fix sphinx_pele
 	python -m ruff format sphinx_pele
 
-fix-docs:  ## autoformat docs with mdformat and codespell
-	python -m mdformat README.md $(wildcard docs/src) 
-	python -m codespell_lib --write README.md $(wildcard docs/src) 
+fix-js:  ## fix js formatting
+	cd js; pnpm fix
 
-lint: lint-py lint-docs  ## run all linters
-lints: lint
-fix: fix-py fix-docs  ## run all autoformatters
+fix-docs:  ## autoformat docs with mdformat and codespell
+	python -m mdformat README.md docs/src
+	python -m codespell_lib --write README.md docs/src
+
+fix: fix-js fix-py fix-docs  ## run project autoformatters
+
+# alias
 format: fix
 
 ################
@@ -54,21 +82,36 @@ check-types:  ## check python types with ty
 
 checks: check-dist check-types
 
-# Alias
+# alias
 check: checks
 
 #########
 # TESTS #
 #########
-.PHONY: test coverage tests
-
-test:  ## run python tests
+.PHONY: test-py tests-py coverage-py
+test-py:  ## run python tests
 	python -m pytest -v sphinx_pele/tests
 
-coverage:  ## run tests and collect test coverage
+# alias
+tests-py: test-py
+
+coverage-py:  ## run python tests and collect test coverage
 	python -m pytest -v sphinx_pele/tests --cov=sphinx_pele --cov-report term-missing --cov-report xml
 
-# Alias
+.PHONY: test-js tests-js coverage-js
+test-js:  ## run js tests
+	cd js; pnpm test
+
+# alias
+tests-js: test-js
+
+coverage-js: test-js  ## run js tests and collect test coverage
+
+.PHONY: test coverage tests
+test: test-py test-js  ## run all tests
+coverage: coverage-py coverage-js  ## run all tests and collect test coverage
+
+# alias
 tests: test
 
 ###########
@@ -91,15 +134,18 @@ major:  ## bump a major version
 ########
 # DIST #
 ########
-.PHONY: dist dist-build dist-sdist dist-local-wheel publish
+.PHONY: dist dist-py dist-js dist-check publish
 
-dist-build:  # build python dists
+dist-py:  ## build python dists
 	python -m build -w -s
+
+dist-js:  # build js dists
+	cd js; pnpm pack
 
 dist-check:  ## run python dist checker with twine
 	python -m twine check dist/*
 
-dist: clean dist-build dist-check  ## build all dists
+dist: clean build dist-py dist-check  ## build all dists
 
 publish: dist  ## publish python assets
 

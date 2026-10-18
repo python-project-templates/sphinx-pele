@@ -1,0 +1,26 @@
+{
+  "name": "sphinx-pele",
+  "version": "0.1.0",
+  "description": "Pele mermaid diagrams for Sphinx",
+  "repository": "git@github.com:python-project-templates/sphinx-pele.git",
+  "author": "the sphinx-pele authors <t.paine154@gmail.com>",
+  "license": "Apache-2.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs && tsc --noEmit",
+    "lint": "oxlint . && oxfmt --check .",
+    "fix": "oxlint --fix . && oxfmt --write .",
+    "test": "playwright test"
+  },
+  "dependencies": {
+    "pele": "1.6.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "esbuild": "^0.28.2",
+    "oxfmt": "^0.70.0",
+    "oxlint": "^1.85.0",
+    "typescript": "^7.0.2"
+  }
+}
