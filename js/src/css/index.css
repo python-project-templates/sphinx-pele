@@ -1,0 +1,42 @@
+.sphinx-pele {
+  --pele-bg: var(--color-background-primary, var(--pst-color-background, #fff));
+  --pele-fg: var(
+    --color-foreground-primary,
+    var(--pst-color-text-base, #1f1f1f)
+  );
+  --pele-muted: var(
+    --color-foreground-secondary,
+    var(--pst-color-text-muted, #6e6e6e)
+  );
+  --pele-line: var(--pele-fg);
+  --pele-surface: var(
+    --color-background-secondary,
+    var(--pst-color-surface, #f3f3f3)
+  );
+  --pele-surface-alt: var(
+    --color-background-border,
+    var(--pst-color-border, #e6e6e6)
+  );
+  --pele-border: var(
+    --color-foreground-border,
+    var(--pst-color-border, #8a8a8a)
+  );
+  width: 100%;
+  min-width: 0;
+  margin-block: 1rem;
+  overflow: auto;
+}
+
+.sphinx-pele.align-center {
+  margin-inline: auto;
+  text-align: center;
+}
+
+.sphinx-pele.align-right {
+  margin-left: auto;
+  text-align: right;
+}
+
+.sphinx-pele-title {
+  font-weight: bold;
+}

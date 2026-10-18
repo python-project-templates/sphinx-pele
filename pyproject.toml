@@ -1,6 +1,7 @@
 [build-system]
 requires = [
     "hatchling",
+    "hatch-js",
 ]
 build-backend = "hatchling.build"
 
@@ -28,7 +29,7 @@ classifiers = [
     "Programming Language :: Python :: 3.14",
 ]
 
-dependencies = []
+dependencies = ["sphinx>=7.4", "PyYAML>=6"]
 
 [project.optional-dependencies]
 develop = [
@@ -36,9 +37,11 @@ develop = [
     "bump-my-version",
     "check-dist",
     "codespell",
+    "hatch-js",
     "hatchling",
     "mdformat",
     "mdformat-frontmatter",
+    "myst-parser>=3",
     "mdformat-tables>=1",
     "pytest",
     "pytest-cov",
@@ -60,6 +63,10 @@ current_version = "0.1.0"
 commit = true
 tag = true
 commit_args = "-s"
+pre_commit_hooks = [
+    "pnpm --dir js install --lockfile-only --no-frozen-lockfile --ignore-scripts",
+    "git add js/pnpm-lock.yaml",
+]
 
 [[tool.bumpversion.files]]
 filename = "sphinx_pele/__init__.py"
@@ -70,6 +77,25 @@ replace = '__version__ = "{new_version}"'
 filename = "pyproject.toml"
 search = 'version = "{current_version}"'
 replace = 'version = "{new_version}"'
+
+[[tool.bumpversion.files]]
+filename = "js/package.json"
+search = '"version": "{current_version}"'
+replace = '"version": "{new_version}"'
+
+[tool.check-dist]
+present = [
+    "sphinx_pele/extension/cdn/sphinx-pele.js",
+    "sphinx_pele/extension/cdn/sphinx-pele.css",
+    "sphinx_pele/extension/cdn/pele-LICENSE",
+]
+absent = ["node_modules", "docs/_build", ".github"]
+
+[tool.check-dist.sdist]
+present = ["js/src", "js/pnpm-lock.yaml", "docs/src"]
+
+[tool.check-dist.wheel]
+absent = ["js", "docs"]
 
 [tool.coverage.run]
 branch = true
@@ -87,7 +113,9 @@ ignore_errors = true
 fail_under = 50
 
 [tool.hatch.build]
-artifacts = []
+artifacts = [
+    "sphinx_pele/extension",
+]
 
 [tool.hatch.build.sources]
 src = "/"
@@ -95,14 +123,33 @@ src = "/"
 [tool.hatch.build.targets.sdist]
 packages = [
     "sphinx_pele",
+    "js",
+    "docs",
+]
+exclude = [
+    "js/dist",
+    "js/node_modules",
+    "docs/_build",
+    "docs/html",
 ]
 
 [tool.hatch.build.targets.wheel]
 packages = [
     "sphinx_pele",
 ]
+exclude = [
+    "js",
+]
 
-[tool.hatch.build.targets.wheel.shared-data]
+[tool.hatch.build.hooks.hatch-js]
+path = "js"
+build_cmd = "build"
+tool = "pnpm"
+targets = [
+    "sphinx_pele/extension/cdn/sphinx-pele.js",
+    "sphinx_pele/extension/cdn/sphinx-pele.css",
+    "sphinx_pele/extension/cdn/pele-LICENSE",
+]
 
 [tool.pytest.ini_options]
 addopts = [
