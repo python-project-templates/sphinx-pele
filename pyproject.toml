@@ -29,7 +29,7 @@ classifiers = [
     "Programming Language :: Python :: 3.14",
 ]
 
-dependencies = ["sphinx>=7.4", "PyYAML>=6"]
+dependencies = ["sphinx>=9.0.4", "PyYAML>=6.0.3"]
 
 [project.optional-dependencies]
 develop = [
@@ -41,7 +41,7 @@ develop = [
     "hatchling",
     "mdformat",
     "mdformat-frontmatter",
-    "myst-parser>=3",
+    "myst-parser>=5.1.0",
     "mdformat-tables>=1",
     "pytest",
     "pytest-cov",
