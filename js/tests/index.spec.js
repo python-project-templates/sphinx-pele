@@ -14,7 +14,7 @@ test("renders Sphinx diagrams offline with options, captions, and unique SVG IDs
     return route.continue();
   });
   await page.goto("/src/examples.html");
-  await expect(page.locator(".sphinx-pele svg.pele")).toHaveCount(4);
+  await expect(page.locator(".sphinx-pele svg.pele")).toHaveCount(16);
   await expect(page.locator(".sphinx-pele").first()).toContainText(
     "Publishing",
   );
@@ -66,7 +66,7 @@ test("renders Sphinx diagrams offline with options, captions, and unique SVG IDs
           ?.width ?? Infinity,
     )
     .toBeLessThan(wide.width);
-  await expect(page.locator(".sphinx-pele svg.pele")).toHaveCount(4);
+  await expect(page.locator(".sphinx-pele svg.pele")).toHaveCount(16);
 });
 
 test("source remains readable without JavaScript", async ({ browser }) => {
@@ -82,7 +82,7 @@ test("source remains readable without JavaScript", async ({ browser }) => {
 test("a malformed diagram does not stop subsequent diagrams or execute source", async ({
   page,
 }) => {
-  await page.goto("/src/index.html");
+  await page.goto("/index.html");
   await page.evaluate(() => {
     for (const source of [
       "<img src=x onerror=window.injected=true>",
@@ -102,4 +102,30 @@ test("a malformed diagram does not stop subsequent diagrams or execute source", 
   );
   await expect(page.locator(".sphinx-pele svg.pele")).toHaveCount(1);
   expect(await page.evaluate(() => window.injected)).toBeUndefined();
+});
+
+test("documentation homepage links to guides and reStructuredText examples render", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await expect(
+    page
+      .locator(".body")
+      .getByRole("heading", { name: "sphinx-pele", exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.locator('.document a[href="src/tutorial.html"]').first(),
+  ).toBeVisible();
+  await page.goto("/src/rst-examples.html");
+  await expect(page.locator(".sphinx-pele")).toHaveCount(4);
+  await expect(page.locator(".sphinx-pele svg.pele")).toHaveCount(4);
+  await expect(page.locator("#review-states .caption-text")).toContainText(
+    "Document review states",
+  );
+  await expect(
+    page.getByRole("button", { name: "Enlarge", exact: true }),
+  ).toBeVisible();
+  await expect(page.locator(".sphinx-pele-title")).toHaveText(
+    "Review decision",
+  );
 });
