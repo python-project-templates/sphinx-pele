@@ -1,0 +1,11 @@
+erDiagram
+    COLLECTION ||--o{ PAGE : contains
+    PAGE ||--o{ DIAGRAM : embeds
+    PAGE {
+        string slug PK
+        string title
+    }
+    DIAGRAM {
+        string id PK
+        string source
+    }

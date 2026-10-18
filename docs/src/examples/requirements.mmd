@@ -1,0 +1,11 @@
+requirementDiagram
+    requirement diagram_output {
+        id: 1
+        text: Diagrams render as SVG
+        risk: low
+        verifymethod: test
+    }
+    element browser_test {
+        type: "test"
+    }
+    browser_test - verifies -> diagram_output

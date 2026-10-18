@@ -1,0 +1,10 @@
+classDiagram
+    class Document {
+        +String title
+        +render()
+    }
+    class Diagram {
+        +String source
+        +toSVG()
+    }
+    Document "1" *-- "many" Diagram : contains
