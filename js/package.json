@@ -14,13 +14,13 @@
     "test": "playwright test"
   },
   "dependencies": {
-    "pele": "1.6.0"
+    "pele": "1.10.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.63.0",
     "esbuild": "^0.28.2",
-    "oxfmt": "^0.72.0",
-    "oxlint": "^1.85.0",
+    "oxfmt": "^0.74.0",
+    "oxlint": "^1.89.0",
     "typescript": "^7.0.2"
   }
 }
