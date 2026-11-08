@@ -40,8 +40,12 @@ develop = [
     "hatch-js",
     "hatchling",
     "mdformat",
+<<<<<<< before updating
     "mdformat-frontmatter",
     "myst-parser>=3",
+=======
+    "mdformat-myst",
+>>>>>>> after updating
     "mdformat-tables>=1",
     "pytest",
     "pytest-cov",
