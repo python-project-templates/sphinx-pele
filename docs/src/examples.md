@@ -14,7 +14,9 @@ and [how to add diagrams](usage.md). Styling recipes are in
 Diagram frontmatter supplies a title, layout settings, font size, and a CSS variable.
 
 ```{literalinclude} examples/publishing.mmd
-:language: text
+---
+language: text
+---
 ```
 
 ```{mermaid} examples/publishing.mmd
@@ -25,15 +27,19 @@ Diagram frontmatter supplies a title, layout settings, font size, and a CSS vari
 A caption, named reference, accessible label, width, and zoom controls are attached by the Sphinx directive.
 
 ```{literalinclude} examples/sequence.mmd
-:language: text
+---
+language: text
+---
 ```
 
 ```{mermaid} examples/sequence.mmd
-:name: request-flow
-:caption: A **request** and response.
-:alt: Client requests a page from the server.
-:zoom: true
-:width: 75%
+---
+name: request-flow
+caption: A **request** and response.
+alt: Client requests a page from the server.
+zoom: true
+width: 75%
+---
 ```
 
 ## External file
@@ -41,11 +47,15 @@ A caption, named reference, accessible label, width, and zoom controls are attac
 The same UTF-8 file supplies the source listing and diagram. Sphinx tracks it as a build dependency.
 
 ```{literalinclude} publishing.mmd
-:language: text
+---
+language: text
+---
 ```
 
 ```{mermaid} publishing.mmd
-:caption: Loaded from a Mermaid document.
+---
+caption: Loaded from a Mermaid document.
+---
 ```
 
 ## Pie chart
@@ -53,7 +63,9 @@ The same UTF-8 file supplies the source listing and diagram. Sphinx tracks it as
 A chart with two labeled slices.
 
 ```{literalinclude} examples/pie.mmd
-:language: text
+---
+language: text
+---
 ```
 
 ```{mermaid} examples/pie.mmd
@@ -64,7 +76,9 @@ A chart with two labeled slices.
 Classes, members, and a composition relationship.
 
 ```{literalinclude} examples/classes.mmd
-:language: text
+---
+language: text
+---
 ```
 
 ```{mermaid} examples/classes.mmd
@@ -75,7 +89,9 @@ Classes, members, and a composition relationship.
 A documentation collection with pages and embedded diagrams.
 
 ```{literalinclude} examples/entities.mmd
-:language: text
+---
+language: text
+---
 ```
 
 ```{mermaid} examples/entities.mmd
@@ -86,7 +102,9 @@ A documentation collection with pages and embedded diagrams.
 Transitions through a review cycle, including a return to the draft state.
 
 ```{literalinclude} examples/states.mmd
-:language: text
+---
+language: text
+---
 ```
 
 ```{mermaid} examples/states.mmd
@@ -97,7 +115,9 @@ Transitions through a review cycle, including a return to the draft state.
 Fixed dates and a disabled today marker keep this example stable across builds.
 
 ```{literalinclude} examples/gantt.mmd
-:language: text
+---
+language: text
+---
 ```
 
 ```{mermaid} examples/gantt.mmd
@@ -108,7 +128,9 @@ Fixed dates and a disabled today marker keep this example stable across builds.
 Scores describe how a reader experiences each part of a documentation task.
 
 ```{literalinclude} examples/journey.mmd
-:language: text
+---
+language: text
+---
 ```
 
 ```{mermaid} examples/journey.mmd
@@ -119,7 +141,9 @@ Scores describe how a reader experiences each part of a documentation task.
 A documentation branch merged back into main.
 
 ```{literalinclude} examples/git-history.mmd
-:language: text
+---
+language: text
+---
 ```
 
 ```{mermaid} examples/git-history.mmd
@@ -130,7 +154,9 @@ A documentation branch merged back into main.
 A hierarchy of documentation topics.
 
 ```{literalinclude} examples/mindmap.mmd
-:language: text
+---
+language: text
+---
 ```
 
 ```{mermaid} examples/mindmap.mmd
@@ -141,7 +167,9 @@ A hierarchy of documentation topics.
 Milestones grouped by month.
 
 ```{literalinclude} examples/timeline.mmd
-:language: text
+---
+language: text
+---
 ```
 
 ```{mermaid} examples/timeline.mmd
@@ -152,7 +180,9 @@ Milestones grouped by month.
 Work items positioned by effort and reader impact.
 
 ```{literalinclude} examples/quadrants.mmd
-:language: text
+---
+language: text
+---
 ```
 
 ```{mermaid} examples/quadrants.mmd
@@ -163,7 +193,9 @@ Work items positioned by effort and reader impact.
 Values represent reader traffic between documentation sections.
 
 ```{literalinclude} examples/sankey.mmd
-:language: text
+---
+language: text
+---
 ```
 
 ```{mermaid} examples/sankey.mmd
@@ -174,7 +206,9 @@ Values represent reader traffic between documentation sections.
 Bars show completed examples over four weeks.
 
 ```{literalinclude} examples/xy-chart.mmd
-:language: text
+---
+language: text
+---
 ```
 
 ```{mermaid} examples/xy-chart.mmd
@@ -185,7 +219,9 @@ Bars show completed examples over four weeks.
 A test element verifies a rendering requirement.
 
 ```{literalinclude} examples/requirements.mmd
-:language: text
+---
+language: text
+---
 ```
 
 ```{mermaid} examples/requirements.mmd
