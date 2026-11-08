@@ -9,9 +9,10 @@ The tutorial takes you from an empty directory to a page with a captioned,
 zoomable diagram.
 
 ```{toctree}
-:maxdepth: 1
-:caption: Tutorial
-
+---
+maxdepth: 1
+caption: Tutorial
+---
 src/tutorial
 ```
 
@@ -21,9 +22,10 @@ These guides cover existing Sphinx projects, visual customization, migration,
 and local checks.
 
 ```{toctree}
-:maxdepth: 1
-:caption: How-to guides
-
+---
+maxdepth: 1
+caption: How-to guides
+---
 src/usage
 src/styling
 src/migration
@@ -37,9 +39,10 @@ The reference records supported settings and their precedence. The example
 pages pair reusable source with output from the bundled renderer.
 
 ```{toctree}
-:maxdepth: 1
-:caption: Reference
-
+---
+maxdepth: 1
+caption: Reference
+---
 src/configuration
 src/examples
 src/rst-examples
@@ -51,8 +54,9 @@ Learn why diagrams render in the browser and what that means for layout,
 configuration, and non-HTML output.
 
 ```{toctree}
-:maxdepth: 1
-:caption: Explanation
-
+---
+maxdepth: 1
+caption: Explanation
+---
 src/rendering
 ```
